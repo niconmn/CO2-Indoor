@@ -112,34 +112,29 @@ LCD_Refresh: Manejo del LCD
 void LCD_Refresh()
 {
 	/* Escribo la fila 0 */
-	if (LCDPtr < 20)
-	{
-	lcd.setCursor(LCDPtr,0);
-	lcd.print(LCD[LCDPtr]);
+	if (LCDPtr < 20){
+		lcd.setCursor(LCDPtr,0);
+		lcd.print(LCD[LCDPtr]);
 	};
 	/* Escribo la fila 1 */
-	if ((LCDPtr >= 20) && (LCDPtr < 40))
-	{
-	lcd.setCursor(LCDPtr - 20,1);
-	lcd.print(LCD[LCDPtr]);
+	if ((LCDPtr >= 20) && (LCDPtr < 40)){
+		lcd.setCursor(LCDPtr - 20,1);
+		lcd.print(LCD[LCDPtr]);
 	};
 	/* Escribo la fila 2 */
-	if ((LCDPtr >= 40) && (LCDPtr < 60))
-	{
-	lcd.setCursor(LCDPtr-40,2);
-	lcd.print(LCD[LCDPtr]);
+	if ((LCDPtr >= 40) && (LCDPtr < 60)){
+		lcd.setCursor(LCDPtr-40,2);
+		lcd.print(LCD[LCDPtr]);
 	};
 	/* Escribo la fila 3 */
-	if ((LCDPtr >= 60) && (LCDPtr < 80))
-	{
-	lcd.setCursor(LCDPtr-60,3);
-	lcd.print(LCD[LCDPtr]);
+	if ((LCDPtr >= 60) && (LCDPtr < 80)){
+		lcd.setCursor(LCDPtr-60,3);
+		lcd.print(LCD[LCDPtr]);
 	};
 	/* Incremento el puntero y si llegó a 80 lo reseteo */
 	LCDPtr = LCDPtr + 1;
-	if (LCDPtr == 80)
-	{
-	LCDPtr = 0;
+	if (LCDPtr == 80){
+		LCDPtr = 0;
 	};
 }
 
@@ -165,16 +160,17 @@ Scrol Inicio
 *******************************************************************************/
 void scrollInicio(void)
 {
-for (int i = 0; i < 20; i++) {
-    lcd.setCursor(i,3);
-	lcd.print("*");
-	lcd.setCursor(i,2);
-	lcd.print("*");
-    lcd.setCursor(i,1);
-	lcd.print("*");
-	lcd.setCursor(i,0);
-	lcd.print("*");
-    delay(100);
+	for (int i = 0; i < 20; i++) 
+	{
+		lcd.setCursor(i,3);
+		lcd.print("*");
+		lcd.setCursor(i,2);
+		lcd.print("*");
+		lcd.setCursor(i,1);
+		lcd.print("*");
+		lcd.setCursor(i,0);
+		lcd.print("*");
+		delay(100);
 	}
 }
 /*******************************************************************************
@@ -183,21 +179,20 @@ Setup
 
 void setup()
 {
-  pinMode(LedWhite, OUTPUT); //Defino como salida la pata que tiene el led blanco
-  pinMode(Ledrojo, OUTPUT); //Defino como salida la pata que tiene el led rojo
-  pinMode(Ledverde, OUTPUT); //Defino como salida la pata que tiene el led verde
-  pinMode(buzzer, OUTPUT);
-  Serial.begin(9600);
-  lcd.begin(20, 4); // Inicializo el lcd de 20 x 4
-  Serial.println("CO2 EE850");
-  lcd.clear();
-  scrollInicio();
-  The_Pac_Sound();
-  lcd.clear();
-  lcd.setCursor(2,0);
-  lcd.print("Detector de CO2!");
-  delay(1000);
-  
+	pinMode(LedWhite, OUTPUT); //Defino como salida la pata que tiene el led blanco
+	pinMode(Ledrojo, OUTPUT); //Defino como salida la pata que tiene el led rojo
+	pinMode(Ledverde, OUTPUT); //Defino como salida la pata que tiene el led verde
+	pinMode(buzzer, OUTPUT);
+	Serial.begin(9600);
+	lcd.begin(20, 4); // Inicializo el lcd de 20 x 4
+	Serial.println("CO2 EE850");
+	lcd.clear();
+	scrollInicio();
+	The_Pac_Sound();
+	lcd.clear();
+	lcd.setCursor(2,0);
+	lcd.print("Detector de CO2!");
+	delay(1000);
 }
 
 /*******************************************************************************
@@ -205,13 +200,13 @@ Loop
 *******************************************************************************/
 void loop()
 {
-  millis_Now = millis();
-  Delta_millis = millis_Now - millis_Ant;
-  LCD_Refresh();
-  if(Delta_millis >= Delta){// Loop lento (500ms)
-    millis_Ant = millis_Now;
-    leerADC();
-	semaforo();
-	printSerial();
-    }
+	millis_Now = millis();
+	Delta_millis = millis_Now - millis_Ant;
+	LCD_Refresh();
+	if(Delta_millis >= Delta){// Loop lento (500ms)
+		millis_Ant = millis_Now;
+		leerADC();
+		semaforo();
+		printSerial();
+	}
 }
