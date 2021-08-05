@@ -9,7 +9,6 @@
 #include <TimeLib.h> // RTC interno Arduino
 #include <LiquidCrystal.h>
 #include <PString.h>
-
 LiquidCrystal lcd(12, 11,6 ,5, 4, 3, 2);
 char LCD[81] =  "CO2:                " // 0-19 Primera línea
                 "                    " // 20-39 Segunda línea
@@ -25,7 +24,7 @@ float cteAdc = 0.004887585;
 int adc1 = A6;
 int adc2 = A7;
 int lecturaEE850G = 0;
-
+int lcdth =0;
 String partpormill = "ppm";
 String dangerzone = "RIESGO ALTO";
 String safezone =   "RIESGO BAJO";
