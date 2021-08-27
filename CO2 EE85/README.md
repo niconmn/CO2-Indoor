@@ -1,7 +1,6 @@
-Readme
-##Programa Arduino para leer una entrada ADC, conecatando a ella un sensor tipo EE85.
+## Programa Arduino para leer una entrada ADC, conecatando a ella un sensor tipo EE85.
 
-#Implementado:
+## Implementado:
 - Entrada ADC
 - Display
 - Refresco display rapido (tipo Pstring)
