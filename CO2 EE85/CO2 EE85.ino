@@ -44,7 +44,7 @@ leerADC: LECTURA ADC (J5)
 *******************************************************************************/
 void leerADC()
 {
-	lecturaEE850G = analogRead(adc1)* cteAdc * multPpm;// + 200 offset del sensor = [ppm]
+	lecturaEE850G = analogRead(adc1)* cteAdc * multPpm;//
 	PString mystring(AuxStr, sizeof(AuxStr)); //zona sin mucho entendimiento, pero anda.
 	mystring = lecturaEE850G; //mando un Pstring "mystring" con el valor medido
 

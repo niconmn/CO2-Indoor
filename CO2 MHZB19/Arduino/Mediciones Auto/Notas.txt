@@ -1,0 +1,30 @@
+Mediciones en el auto de los chiques de UBA.
+Entraron 2 personas en el auto.
+tomamos nota de las concentraciones cada 1 minuto.
+Se hicieron 2 "corridas". En la primera el sensor de ellos estaba encerrado en la cajita que usaban como ganinete.
+La segunda tenia ambos sensores "al aire".
+E = Ellos. N = Nosotros
+
+Corrida N1
+10:21 encendió el de ellos. E 404 N 442
+10:23 E 418 N 432
+10:24 E 437 N 483
+10:25 E 475 N 651
+10:26 E 630 N 817
+10:27 E 840 N 1270
+10:28 E 940 N 1460
+10:29 E 1214 N 1566
+10:30 E 1422 N 1717
+10:31 E 1637 N 1823
+
+Ahora abren la caja de cartón en la que está su sensor. Repetimos. 
+Corrida 2
+10:38 E 403 N 407
+10:39 E 403 N 405
+10:40 E 433 N 408
+10:41 E 694 N 612
+10:42 E 875 N 821
+10:43 E 1002 N 999
+10:44 E 1244 N 1162
+10:45 E 1481 N 1293
+10:46 E 1637 N 1450
