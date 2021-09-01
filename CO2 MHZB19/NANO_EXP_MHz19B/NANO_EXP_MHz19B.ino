@@ -12,8 +12,11 @@
 LiquidCrystal lcd(12, 11,6 ,5, 4, 3, 2);
 
 
-const int rx_pin = 7;  //Serial rx pin MH-Z19
-const int tx_pin = 8; //Serial tx pin MH-Z19
+const int rx1_pin = 7;  //Serial rx pin MH-Z19_1
+const int tx1_pin = 8; //Serial tx pin MH-Z19_1
+const int rx2_pin = A1;//Serial rx pin MH-Z19_2
+const int tx2_pin = A2;//Serial tx pin MH-Z19_2
+
 const int buzzer = 9 ;
 int cnt = 0; // cuenta LOOPS
 
@@ -25,7 +28,8 @@ const int led_A = 13 ; // control LED ROJO Onboard
 const int cal_pin = A0;  // entrada pulsador calibración
 //*****************************************************************************************
 
-MHZ19_uart mhz191; // asigna medidor al sensor
+MHZ19_uart mhz19_1; // asigna medidor al sensor
+MHZ19_uart mhz19_2; // asigna medidor al sensor
 
 //----------------------------------------------------------
 //CALIBRACION
@@ -66,7 +70,7 @@ void calibrar()
       lcd.setCursor(0, 1); // Ubicamos el cursor en la primera posición(columna:0) de la segunda línea(fila:1)
       lcd.print("co2: ");    // Escribe texto
       lcd.setCursor(8, 1); // Ubicamos el cursor en la novena posición(columna:8) de la segunda línea(fila:1)
-      lcd.print(mhz191.getPPM()); // Escribe CO2
+      lcd.print(mhz19_1.getPPM()); // Escribe CO2
       lcd.setCursor(12, 1); // Ubicamos el cursor en la treceava posición(columna:12) de la segunda línea(fila:1)
       lcd.print("ppm"); // Escribe texto
     } else {
@@ -83,7 +87,8 @@ void calibrar()
   // paso media hora
 
   lcd.clear(); // borra pantalla  
-  mhz191.calibrateZero(); // Calibra
+  mhz19_1.calibrateZero(); // Calibra
+  mhz19_2.calibrateZero(); // Calibra
   lcd.setCursor(0,0);
   lcd.print("PRIMERA"); //
   lcd.setCursor(0, 1); // Ubicamos el cursor en la primera posición(columna:0) de la segunda línea(fila:1)
@@ -91,7 +96,8 @@ void calibrar()
   delay(60000); // Espera 60 segundos
 
   lcd.clear(); // borra pantalla  
-  mhz191.calibrateZero();  // Calibra por segunda vez por las dudas
+  mhz19_1.calibrateZero();  // Calibra por segunda vez por las dudas
+  mhz19_2.calibrateZero(); // Calibra por segunda vez por las dudas
   lcd.setCursor(0,0);
   lcd.print("SEGUNDA"); //
   lcd.setCursor(0, 1); // Ubicamos el cursor en la primera posición(columna:0) de la segunda línea(fila:1)
@@ -151,11 +157,13 @@ void setup() {
     calentando MH-Z19 CO2 sensor
   ----------------------------------------------------------*/
 
-  mhz191.begin(rx_pin, tx_pin); // inicializa el sensor
+  mhz19_1.begin(rx1_pin, tx1_pin); // inicializa el sensor 1
+  mhz19_2.begin(rx2_pin, tx2_pin); // inicializa el sensor 2
   /*   MH-Z19 has automatic calibration procedure. the MH-Z19 executing automatic calibration, its do zero point(stable gas environment (400ppm)) judgement.
        The automatic calibration cycle is every 24 hours after powered on.  
        If you use this sensor in door, you execute `setAutoCalibration(false)`.   */  
-  mhz191.setAutoCalibration(false);
+  mhz19_1.setAutoCalibration(false);
+  mhz19_2.setAutoCalibration(false);
   
 // muestra indicación de que está calentando 
   lcd.setCursor(0, 0); // Ubicamos el cursor en la primera posición(columna:0) de la primera línea(fila:0)
@@ -169,26 +177,37 @@ void setup() {
     MH-Z19 CO2 sensor  loop
   ----------------------------------------------------------*/
 void loop() {
-
   if (digitalRead(cal_pin) == LOW) { // si detecta el botón de calibrar apretado, calibra
       calibrar();
   }
-
   
-  int co2ppm = mhz191.getPPM(); // mide CO2
-  int temp = mhz191.getTemperature(); // mide temperatura
+  int co2_1ppm = mhz19_1.getPPM(); // mide CO2
+  int temp_1 = mhz19_1.getTemperature(); // mide temperatura
+  
+  int co2_2ppm = mhz19_2.getPPM(); // mide CO2
+  int temp_2 = mhz19_2.getTemperature(); // mide temperatura
 
 //  Muestra medición de CO2    
   lcd.clear(); // borra pantalla
   lcd.setCursor(0, 0); // Ubicamos el cursor en la primera posición(columna:0) de la primera línea(fila:0)
   lcd.print("CO2-1: ");    // Escribe texto
   lcd.setCursor(8, 0); // Ubicamos el cursor en la novena posición(columna:8) de la primera línea(fila:0)
-  lcd.print(co2ppm); // Escribe CO2
+  lcd.print(co2_1ppm); // Escribe CO2
   lcd.setCursor(12, 0); // Ubicamos el cursor en la treceava posición(columna:12) de la primera línea(fila:0)
   lcd.print("ppm"); // Escribe texto
   Serial.print ("CO2: ");
-  Serial.print (co2ppm);
+  Serial.print (co2_1ppm);
   Serial.println(" ppm");
+  
+  lcd.setCursor(0, 1); // Ubicamos el cursor en la primera posición(columna:0) de la primera línea(fila:0)
+  lcd.print("CO2-2: ");    // Escribe texto
+  lcd.setCursor(8, 1); // Ubicamos el cursor en la novena posición(columna:8) de la primera línea(fila:0)
+  lcd.print(co2_2ppm); // Escribe CO2
+  lcd.setCursor(12, 1); // Ubicamos el cursor en la treceava posición(columna:12) de la primera línea(fila:0)
+  lcd.print("ppm"); // Escribe texto
+  Serial.print ("CO2: ");
+  Serial.print (co2_2ppm);
+  Serial.println(" ppm"); 
 
   delay(5000); //demora 5 seg entre mediciones
 }
