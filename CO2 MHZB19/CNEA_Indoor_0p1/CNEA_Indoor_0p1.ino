@@ -1,14 +1,20 @@
+
 /******************************************************************************/
 // CNEA_Indoor_0p1
 // Para Utilizar en NANO Experimental!!!
-// Lectura MH-Z19
-// 
+// Lee MH-Z19
+// Usa PString
+// Loop rapido y lento
+// The PAC sound
+// Refresco rapido del LCD
+//
 // Faltantes:
 // 			- RTC
 // 			- SD 
 // 
 //*****************************************************************************/
 
+// Librerias
 #include <MHZ19_uart.h> // incluye librería para manejo del sensor de CO2
 #include <Wire.h> 
 #include <LiquidCrystal.h>
@@ -16,7 +22,8 @@
 #include <TimeLib.h> // RTC interno Arduino
 #include <PString.h>
 
-//LiquidCrystal_I2C display(0x27,16,2);
+// LCD
+// LiquidCrystal_I2C display(0x27,16,2);
 LiquidCrystal lcd(12, 11,6 ,5, 4, 3, 2);
 char LCD[81] =  "CO2:                " // 0-19 Primera línea
                 "                    " // 20-39 Segunda línea
@@ -28,24 +35,24 @@ char AuxStr[11] = "          "; // Array auxiliar para PString
 int  AuxStrPtr = 0; //Puntero auxiliar para PString. Va de 0 a 10
 int temp = 0;
 int aux = 0;
-
-const int rx1_pin = 7;  //Serial rx pin MH-Z19
-const int tx1_pin = 8; //Serial tx pin MH-Z19
-
-const int buzzer = 9 ;
 int cnt = 0; // cuenta LOOPS
 
+// Buzzer
+const int buzzer = 9 ;
+// Strings
 String partPormill = "ppm";
 String riesgoAlto = "RIESGO ALTO";
 String riesgoMedio = "RIESGO MEDIO";
-String riesgoBajo =   "RIESGO BAJO";
-
+String riesgoBajo = "RIESGO BAJO";
+// Leds
 const int led_R = A5 ; // control LED ROJO
 const int led_V = A4 ; // control LED VERDE
 const int led_A = 13 ; // control LED ROJO Onboard
-
+// Pulsador
 const int cal_pin = A0;  // entrada pulsador calibración
-
+// MH-Z19
+const int rx1_pin = 7;  //Serial rx pin MH-Z19
+const int tx1_pin = 8; //Serial tx pin MH-Z19
 MHZ19_uart mhz19_1; // asigna medidor al sensor
 int datoMHZ19 = 0;
 // Temporización de loop rápido y loop lento 
@@ -282,7 +289,7 @@ void setup()
 	scrollInicio();
 	lcd.clear(); // borra pantalla
 	lcd.setCursor(0, 1); // Ubicamos el cursor en la primera posición(columna:0) de la segunda línea(fila:1)
-	lcd.print("INICIANDO");
+	lcd.print("CO2- Indoor 0p1");
 	delay(1000);
 	lcd.clear(); // borra pantalla
 	mhz19_1.begin(rx1_pin, tx1_pin); // inicializa el sensor 1
@@ -294,6 +301,7 @@ void setup()
 	lcd.print("Warm up");    // Escribe primera linea del cartel
 	delay(60000); // espera 1 minuto            
 	lcd.clear(); // borra pantalla  
+	The_Pac_Sound();
 }
 /*******************************************************************************
 Loop
